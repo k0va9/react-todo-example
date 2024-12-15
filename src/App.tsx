@@ -29,8 +29,10 @@ function App() {
           className="border p-2 w-full"
           placeholder="タスクを作成"
           onKeyDown={(e) => {
-            if (e.key === 'Enter') createTask(e.currentTarget.value)
-            e.currentTarget.value = ''
+            if (e.key === 'Enter') {
+              createTask(e.currentTarget.value)
+              e.currentTarget.value = ''
+            }
           }}
         />
       </div>
