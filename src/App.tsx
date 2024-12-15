@@ -1,14 +1,9 @@
+import { useState } from 'react'
 import { Task } from './components/atoms/Task'
 import type { TaskType } from './components/atoms/Task'
 
 function App() {
-  const tasklist: Array<TaskType> = [
-    {
-      id: '1',
-      name: 'test',
-      completed: false
-    }
-  ]
+  const [tasklist, setTask] = useState<Array<TaskType>>([])
 
   return (
     <section className="max-w-[70vw] mx-auto mt-16 h-[100vh] container">
