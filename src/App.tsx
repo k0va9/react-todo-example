@@ -14,13 +14,27 @@ function App() {
     setTask([...tasklist, data])
   }
 
+  const handleChangeCompleted = (id: string) => {
+    setTask((tasks) => {
+      return tasks.map((task) => {
+        if (task.id === id) return { ...task, completed: !task.completed }
+        return task
+      })
+    })
+  }
+
   return (
     <section className="max-w-[70vw] mx-auto mt-16 h-[100vh] container">
       {!tasklist.length ? (
         <p className="text-center tracking-widest">タスクがありません</p>
       ) : (
         tasklist.map((item) => {
-          return <Task {...item} />
+          const props = {
+            ...item,
+            handleChanged: handleChangeCompleted
+          }
+
+          return <Task {...props} />
         })
       )}
       <div className="max-w-[40vw] mx-auto my-8">
