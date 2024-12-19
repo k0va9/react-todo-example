@@ -1,4 +1,5 @@
 import { Input } from '../Input'
+import { Label } from '../Label'
 
 export type TaskType = {
   id: string
@@ -23,7 +24,9 @@ export const Task = ({ ...props }: Props) => {
           props.handleChanged(e.target.id)
         }}
       />
-      <label className={props.completed ? 'line-through': ''}>{props.name}</label>
+      <Label className={props.completed ? 'line-through' : ''}>
+        {props.name}
+      </Label>
     </div>
   )
 }
