@@ -1,3 +1,5 @@
+import { Input } from '../Input'
+
 export type TaskType = {
   id: string
   name: string
@@ -14,7 +16,7 @@ type Props = TaskType & handlerType
 export const Task = ({ ...props }: Props) => {
   return (
     <div className="w-full flex gap-4 text-xl border-b pb-4">
-      <input
+      <Input
         id={props.id}
         type="checkbox"
         onChange={(e) => {
