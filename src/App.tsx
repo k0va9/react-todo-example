@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Task } from './components/atoms/Task'
-import type { TaskType } from './components/atoms/Task'
+import { Task } from './components/molecules/Task'
+import type { TaskType } from './components/molecules/Task'
 
 function App() {
   const [tasklist, setTask] = useState<Array<TaskType>>([])
