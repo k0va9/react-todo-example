@@ -1,5 +1,11 @@
+import { createContext, useState } from 'react'
 import { Task } from './components/molecules/Task'
 import type { TaskType } from './components/molecules/Task'
+
+export const TaskContext = createContext({} as {
+  tasklist: TaskType[]
+  setTask: React.Dispatch<React.SetStateAction<TaskType[]>>
+})
 
 function App() {
   const [tasklist, setTask] = useState<Array<TaskType>>([])
@@ -28,12 +34,11 @@ function App() {
         <p className="text-center tracking-widest">タスクがありません</p>
       ) : (
         tasklist.map((item) => {
-          const props = {
-            ...item,
-            handleChanged: handleChangeCompleted
-          }
-
-          return <Task {...props} />
+          return (
+            <TaskContext.Provider value={{ tasklist, setTask}}>
+              <Task {...item} />
+            </TaskContext.Provider>
+          )
         })
       )}
       <div className="max-w-[40vw] mx-auto my-8">

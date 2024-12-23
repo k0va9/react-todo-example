@@ -1,5 +1,7 @@
+import { useContext } from 'react'
 import { Input } from '../../atoms/Input'
 import { Label } from '../../atoms/Label'
+import { TaskContext } from '../../../App'
 
 export type TaskType = {
   id: string
@@ -8,13 +10,10 @@ export type TaskType = {
   deadLine?: Date
 }
 
-type handlerType = {
-  handleChanged: (id: string) => void
-}
+export const Task = ({ ...props }: TaskType) => {
+  const { setTask } = useContext(TaskContext);
 
-type Props = TaskType & handlerType
 
-export const Task = ({ ...props }: Props) => {
   return (
     <div className="w-full flex gap-4 text-xl border-b pb-4">
       <Input
