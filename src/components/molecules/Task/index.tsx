@@ -13,6 +13,14 @@ export type TaskType = {
 export const Task = ({ ...props }: TaskType) => {
   const { setTask } = useContext(TaskContext);
 
+  const handleChange = (id: string) => {
+    setTask((tasks) => {
+      return tasks.map((task) => {
+        if (task.id === id) return { ...task, completed: !task.completed }
+        return task
+      })
+    })
+  }
 
   return (
     <div className="w-full flex gap-4 text-xl border-b pb-4">
@@ -20,7 +28,7 @@ export const Task = ({ ...props }: TaskType) => {
         id={props.id}
         type="checkbox"
         onChange={() => {
-          props.handleChanged(props.id)
+          handleChange(props.id)
         }}
       />
       <Label className={props.completed ? 'line-through' : ''}>
