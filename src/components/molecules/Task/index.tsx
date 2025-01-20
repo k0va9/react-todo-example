@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Input } from '../../atoms/Input'
 import { Label } from '../../atoms/Label'
 import { TaskContext } from '../../../App'
@@ -22,10 +22,20 @@ export const Task = ({ ...props }: TaskType) => {
     })
   }
 
+  const [toId, setToId] = useState<string>('')
+
   return (
     <div
       className="w-full flex gap-4 text-xl border-b pb-4"
       draggable="true"
+      onDragStart={(e) => {
+        e.dataTransfer.setData('text/plain', props.id)
+      }}
+      onDragOver={(e) => {
+        e.preventDefault()
+        e.dataTransfer.dropEffect = 'move'
+        setToId(e.currentTarget.id)
+      }}
       id={props.id}
     >
       <Input
