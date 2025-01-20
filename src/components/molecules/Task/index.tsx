@@ -11,7 +11,7 @@ export type TaskType = {
 }
 
 export const Task = ({ ...props }: TaskType) => {
-  const { setTask } = useContext(TaskContext);
+  const { setTask, tasklist } = useContext(TaskContext)
 
   const handleChange = (id: string) => {
     setTask((tasks) => {
@@ -23,6 +23,18 @@ export const Task = ({ ...props }: TaskType) => {
   }
 
   const [toId, setToId] = useState<string>('')
+
+  const swap = (arr: TaskType[], from: number, to: number): TaskType[] => {
+    [arr[from], arr[to]] = [arr[to], arr[from]]
+    return arr
+  }
+
+  const changeOrder = (tasklist: TaskType[], fromId: string, toId: string) => {
+    const arr = [...tasklist]
+    const fromIdx = arr.findIndex((task) => task.id === fromId)
+    const toIdx = arr.findIndex((task) => task.id === toId)
+    setTask([...swap(arr, fromIdx, toIdx)])
+  }
 
   return (
     <div
