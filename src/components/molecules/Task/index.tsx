@@ -48,6 +48,11 @@ export const Task = ({ ...props }: TaskType) => {
         e.dataTransfer.dropEffect = 'move'
         setToId(e.currentTarget.id)
       }}
+      onDrop={(e) => {
+        e.preventDefault()
+        const fromId = e.dataTransfer.getData('text/plain')
+        changeOrder(tasklist, fromId, toId)
+      }}
       id={props.id}
     >
       <Input
