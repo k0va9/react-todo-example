@@ -23,7 +23,11 @@ export const Task = ({ ...props }: TaskType) => {
   }
 
   return (
-    <div className="w-full flex gap-4 text-xl border-b pb-4">
+    <div
+      className="w-full flex gap-4 text-xl border-b pb-4"
+      draggable="true"
+      id={props.id}
+    >
       <Input
         id={props.id}
         type="checkbox"
