@@ -12,7 +12,7 @@ function App() {
 
   const createTask = (val: string) => {
     const data: TaskType = {
-      id: Math.random().toString(36).slice(-8),
+      id: self.crypto.randomUUID(),
       name: val,
       completed: false
     }
