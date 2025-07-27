@@ -1,13 +1,17 @@
-import clsx from 'clsx'
-import { useContext, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { TaskType } from '../Task'
 import { TaskContext } from '../../../App'
 import { Label } from '../../atoms/Label'
 import { Input } from '../../atoms/Input'
 
+type ContentType = {
+  id: string,
+  taskName: string,
+}
+
 export const EditTaskModal = (props: Pick<TaskType, 'id' | 'name'>) => {
-  const [modalStat, setIsModalOpen] = useState<boolean>(false)
   const { setTask } = useContext(TaskContext)
+  const dialogElement = useRef<HTMLDialogElement>(null)
 
   const handleUpdate = (id: string, value: string) => {
     setTask((tasks) => {
@@ -17,50 +21,56 @@ export const EditTaskModal = (props: Pick<TaskType, 'id' | 'name'>) => {
       })
     })
   }
+  const [content, setContent] = useState<ContentType>({
+    id: props.id,
+    taskName: props.name
+  })
 
-  const ModalContent = () => {
-    const [newTaskName, setNewTaskName] = useState<string>(props.name)
-    return (
-      <div
-        className="bg-white p-10 flex flex-col z-2 gap-y-4 rounded-[8px]"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <Label htmlFor="taskName">タスク名</Label>
-        <Input
-          id={props.id}
-          value={newTaskName}
-          type="text"
-          className="w-full border"
-          onChange={(e) => setNewTaskName(e.currentTarget.value)}
-          onKeyDown={(e) => {
-            if (e.key !== 'Enter') return
-            handleUpdate(e.currentTarget.id, e.currentTarget.value)
-            closeModal()
-          }}
-        />
-      </div>
-    )
-  }
-  const closeModal = () => {
-    setIsModalOpen(false)
+  const handleChange = (key: string) => (e) => {
+    setContent({ ...content, [key]: e.currentTarget.value })
   }
 
-  const openModal = () => {
-    setIsModalOpen(true)
+  const handleOpen = () => {
+    dialogElement.current?.showModal()
+  }
+
+  const handleClose = () => {
+    if (dialogElement.current?.returnValue === 'update') {
+      handleUpdate(props.id, content.taskName)
+    }
   }
 
   return (
     <div>
-      <button onClick={openModal}>Edit</button>
-      <div
-        className={clsx(
-          modalStat ? 'block' : 'hidden',
-          'fixed inset-0 bg-gray-500/60 w-full h-full flex align-center justify-center items-center'
-        )}
-        onClick={closeModal}
+      <dialog
+        className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 p-7"
+        ref={dialogElement}
+        onClose={handleClose}
       >
-        <ModalContent />
-      </div>
+        <form method="dialog" className="flex flex-col gap-3">
+          <div className="flex flex-col gap-y-2">
+            <Label htmlFor="taskName">タスク名</Label>
+            <Input
+              id={props.id}
+              value={content.taskName}
+              type="text"
+              className="w-full border px-2"
+              onChange={handleChange('taskName')}
+            />
+          </div>
+          <div className="flex gap-x-6 mx-auto">
+            <button
+              className="bg-sky-500 text-white px-4 py-1 font-black"
+              value="update"
+            >
+              更新
+            </button>
+            <button value="cancel">キャンセル</button>
+          </div>
+        </form>
+      </dialog>
+
+      <button onClick={handleOpen}>編集</button>
     </div>
   )
 }

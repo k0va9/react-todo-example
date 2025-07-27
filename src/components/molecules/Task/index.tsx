@@ -2,6 +2,7 @@ import { useContext, useState } from 'react'
 import { Input } from '../../atoms/Input'
 import { Label } from '../../atoms/Label'
 import { TaskContext } from '../../../App'
+import { EditTaskModal } from '../Modal'
 
 export type TaskType = {
   id: string
@@ -65,6 +66,7 @@ export const Task = ({ ...props }: TaskType) => {
       <Label className={props.completed ? 'line-through' : ''}>
         {props.name}
       </Label>
+      <EditTaskModal id={props.id} name={props.name}/>
     </div>
   )
 }
